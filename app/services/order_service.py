@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from ..models import Order, Product, OrderItem
-from ..repos import order_crud, product_crud
+from ..repos import order_crud
 import app.schemas as schemas
 
 
@@ -29,7 +29,9 @@ def create_order(order_items: schemas.OrderCreate, db: Session):
 
         db_product = product_map.get(product['product_id'])
         if not db_product:
-            raise HTTPException(status_code=404, detail=f"Product(id={product['product_id']}) not found")
+            raise HTTPException(
+                status_code=404,
+                detail=f"Product(id={product['product_id']}) not found")
         if db_product.quantity_in_stock < product['quantity']:
             raise HTTPException(
                 status_code=400,

@@ -86,19 +86,27 @@ def test_create_update_order(test_client, db_session, test_product_id):
         "quantity": 1
     }]
 
-def test_create_order_with_invalid_quantity(test_client, db_session, test_product_id):
+
+def test_create_order_with_invalid_quantity(test_client, db_session,
+                                            test_product_id):
     data = [{"product_id": test_product_id, "quantity": -1}]
     response = test_client.post("/orders", json=data)
     assert response.status_code == 422
     assert response.json()['detail'][0]['loc'][2] == 'quantity'
-    assert response.json()['detail'][0]['msg'] == 'Input should be greater than 0'
+    assert response.json(
+    )['detail'][0]['msg'] == 'Input should be greater than 0'
 
-def test_create_order_with_quality_over_stock(test_client, db_session, test_product_id):
-    product_quant = db_session.query(Product).filter(Product.id == test_product_id).first().quantity_in_stock
+
+def test_create_order_with_quality_over_stock(test_client, db_session,
+                                              test_product_id):
+    product_quant = db_session.query(Product).filter(
+        Product.id == test_product_id).first().quantity_in_stock
     data = [{"product_id": test_product_id, "quantity": 999}]
     response = test_client.post("/orders", json=data)
     assert response.status_code == 400
-    assert response.json()['detail'] == f'Insufficient stock for product_id: {test_product_id} (stock: {product_quant})'
+    assert response.json(
+    )['detail'] == f'Insufficient stock for product_id: {test_product_id} (stock: {product_quant})'
+
 
 def test_create_order_with_invalid_product_id(test_client, db_session):
     data = [{"product_id": -1, "quantity": 1}]

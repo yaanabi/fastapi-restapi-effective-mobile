@@ -19,6 +19,7 @@ class Product(Base):
     price: Mapped[float]
     quantity_in_stock: Mapped[int]
     is_deleted: Mapped[bool] = mapped_column(default=False, nullable=False)
+
     def __repr__(self):
         return f"Product(id={self.id!r}, name={self.name!r}, description={self.description!r}, price={self.price!r}, quantity_in_stock={self.quantity_in_stock!r}, is_deleted={self.is_deleted!r}, order_items={self.order_items!r})"
 
@@ -35,6 +36,7 @@ class Order(Base):
 
     def __repr__(self):
         return f"Order(id={self.id!r}, created_at={self.created_at!r}, status={self.status!r}, order_items={self.order_items!r})"
+
 
 class OrderItem(Base):
     __tablename__ = "order_items"
@@ -54,4 +56,6 @@ class OrderItem(Base):
 Order.order_items = relationship('OrderItem',
                                  order_by=OrderItem.id,
                                  back_populates='order')
-Product.order_items = relationship('OrderItem', back_populates='product', cascade="all, delete-orphan")
+Product.order_items = relationship('OrderItem',
+                                   back_populates='product',
+                                   cascade="all, delete-orphan")

@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Form, HTTPException, status
+from fastapi import APIRouter, Depends, Form, status
 from sqlalchemy.orm import Session
 
 from ..services import product_service
@@ -19,7 +19,6 @@ def read_products(db: Annotated[Session, Depends(get_db)]):
 @router.get("/{product_id}", response_model=schemas.ProductRead)
 def read_product(product_id: int, db: Annotated[Session, Depends(get_db)]):
     return product_service.get_product_by_id(product_id, db)
-
 
 
 @router.post("/",

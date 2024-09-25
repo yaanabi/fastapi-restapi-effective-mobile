@@ -11,6 +11,7 @@ class ProductBase(BaseModel):
     price: Annotated[float, Field(ge=0.0)]
     quantity_in_stock: Annotated[int, Field(ge=0)]
 
+
 class ProductRead(ProductBase):
     model_config = ConfigDict(from_attributes=True)
     id: int
@@ -33,6 +34,7 @@ class OrderItemRead(OrderItemBase):
     model_config = ConfigDict(from_attributes=True)
     id: int
     order_id: int
+
 
 class OrderBase(BaseModel):
     pass

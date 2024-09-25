@@ -4,7 +4,6 @@ from fastapi import APIRouter, Depends, Form, HTTPException, status
 from sqlalchemy.orm import Session
 
 from ..services import order_service
-from ..models import OrderStatus
 import app.schemas as schemas
 from ..db import get_db
 
@@ -19,8 +18,9 @@ def read_orders(db: Annotated[Session, Depends(get_db)]):
 @router.post("/",
              response_model=schemas.OrderRead,
              status_code=status.HTTP_201_CREATED)
-def create_order(order_items: Annotated[schemas.OrderCreate, Depends()], db: Annotated[Session,
-                                                         Depends(get_db)]):
+def create_order(order_items: Annotated[schemas.OrderCreate,
+                                        Depends()],
+                 db: Annotated[Session, Depends(get_db)]):
     return order_service.create_order(order_items.model_dump(), db)
 
 

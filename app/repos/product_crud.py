@@ -5,7 +5,7 @@ import app.schemas as schemas
 
 
 def read_products(db: Session):
-    return db.query(Product).filter(Product.is_deleted==False).all()
+    return db.query(Product).filter(Product.is_deleted == False).all()
 
 
 def read_product(product_id: int, db: Session):
