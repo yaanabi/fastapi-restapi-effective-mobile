@@ -8,5 +8,5 @@ To run tests:
   3) rename .env.template to .env
   4) pytest from root project folder while docker compose is up
   Go to http://127.0.0.1:8000/docs 
-If there are module import error:
+If there are module import errors:
   add project folder to PYTHONPATH variable: from project folder type: set PYTHONPATH=./ (on WINDOWS), export PYTHONPATH="$PYTHONPATH:$(pwd) (on Linux/MacOS)
